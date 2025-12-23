@@ -16,7 +16,7 @@ class Disk(object):
     def newpos(self, xpos, ypos):
         """Move the disk to a new position."""
         self.dxpos = xpos
-        # self.dypos = ypos
+        self.dypos = ypos
 
     def cleardisk(self, painter):
         """Clear the disk from its current position."""

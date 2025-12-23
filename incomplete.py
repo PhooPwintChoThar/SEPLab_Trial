@@ -1,5 +1,3 @@
-
-
 class Transportation(object):
    """Abstract base class"""
 
@@ -22,7 +20,21 @@ class Walk( Transportation ):
 
    def find_cost( self ):
       return 0
+   
+class Taxi(Transportation):
+   def __init__(self, start, end, distance):
+      super().__init__(start, end, distance)
 
+   def find_cost(self):
+      return self.distance * 40
+
+class Train(Transportation):
+   def __init__(self, start, end, distance, stations):
+      super().__init__(start, end, distance)
+      self.stations = stations
+
+   def find_cost(self):
+      return self.stations * 5
 
    
 # main program
@@ -32,8 +44,8 @@ travel_cost = 0
 trip = [ Walk("KMITL","KMITL SCB Bank",0.6),
          Taxi("KMITL SCB Bank","Ladkrabang Station",5),
          Train("Ladkrabang Station","Payathai Station",40,6),
-         #Taxi("Payathai Station","The British Council",3) ]
+         Taxi("Payathai Station","The British Council",3) ]
 
 for travel in trip:
    travel_cost += travel.find_cost()
-print (travel_cost)
+print("Total Trave Cost: ", travel_cost, " Baht")

@@ -8,10 +8,10 @@ class Disk(object):
 
     def showdisk(self, painter):
         """Draw the disk at its current position."""
-        #painter.setBrush(Qt.blue)  # Set brush color to blue
+        painter.setBrush(Qt.blue)  # Set brush color to blue
         painter.drawEllipse(self.dxpos, self.dypos, self.dwidth, self.dheight)  # Draw the disk as an ellipse
-        # painter.setPen(Qt.black)  # Set outline color to black
-        # painter.drawText(self.dxpos + 5, self.dypos + self.dheight / 2, self.dname)  # Draw the name of the disk near its center
+        painter.setPen(Qt.black)  # Set outline color to black
+        painter.drawText(self.dxpos + 5, self.dypos + self.dheight / 2, self.dname)  # Draw the name of the disk near its center
 
     def newpos(self, xpos, ypos):
         """Move the disk to a new position."""

@@ -21,5 +21,5 @@ class Disk(object):
     def cleardisk(self, painter):
         """Clear the disk from its current position."""
         painter.setBrush(Qt.white)  # Set brush to white (background color)
-        # painter.drawEllipse(self.dxpos, self.dypos, self.dwidth, self.dheight)  # Redraw the disk as a white circle to "clear" it
+        painter.drawEllipse(self.dxpos, self.dypos, self.dwidth, self.dheight)  # Redraw the disk as a white circle to "clear" it
 

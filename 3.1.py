@@ -1,3 +1,4 @@
+
 import turtle
 
 t = turtle.Turtle()
@@ -13,7 +14,7 @@ class Disk(object):
         self.dwidth = width
 
     def showdisk(self):
-        # precondition: face east
+    # precondition: face east
         t.setheading(0)
         t.penup()
         t.goto(self.dxpos - self.dwidth // 2, self.dypos)
@@ -25,17 +26,17 @@ class Disk(object):
             t.forward(self.dheight)
             t.left(90)
 
-            # postcondition
-            t.penup()
-            t.goto(self.dxpos, self.dypos)
-            t.setheading(0)
+        # postcondition
+        t.penup()
+        t.goto(self.dxpos, self.dypos)
+        t.setheading(0)
 
     def newpos(self, xpos, ypos):
         self.dxpos = xpos
         self.dypos = ypos
 
     def cleardisk(self):
-        # precondition
+    # precondition
         t.setheading(0)
         t.penup()
         t.goto(self.dxpos - self.dwidth // 2, self.dypos)
@@ -48,10 +49,10 @@ class Disk(object):
             t.forward(self.dheight)
             t.left(90)
 
-            t.color("black")
-            t.penup()
-            t.goto(self.dxpos, self.dypos)
-            t.setheading(0)
+        t.color("black")
+        t.penup()
+        t.goto(self.dxpos, self.dypos)
+        t.setheading(0)
 
 
 class Pole(object):
@@ -76,9 +77,9 @@ class Pole(object):
             t.forward(self.plength)
             t.left(90)
 
-            t.penup()
-            t.goto(self.pxpos, self.pypos)
-            t.setheading(0)
+        t.penup()
+        t.goto(self.pxpos, self.pypos)
+        t.setheading(0)
 
     def pushdisk(self, disk):
         disk.cleardisk()
@@ -99,7 +100,7 @@ class Pole(object):
         disk.showdisk()
 
         return disk
-    
+
 
 class Hanoi(object):
     def __init__(self, n=3, start="A", workspace="B", destination="C"):
@@ -113,10 +114,10 @@ class Hanoi(object):
 
         for i in range(n):
             d = Disk("d"+str(i),
-            0,
-            i*20,
-            20,
-            (n-i)*30)
+                    0,
+                    i*20,
+                    20,
+                    (n-i)*30)
             self.startp.pushdisk(d)
 
     def move_disk(self, start, destination):
@@ -135,5 +136,6 @@ class Hanoi(object):
         self.move_tower(3, self.startp, self.destinationp, self.workspacep)
 
 
-
-
+h= Hanoi()
+h.solve()
+turtle.done()

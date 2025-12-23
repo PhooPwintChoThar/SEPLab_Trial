@@ -2,38 +2,54 @@ import sys
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
+
+# ---- Simple_drawing_window (for rectangles, circles, and polygons) ----
 class Simple_drawing_window(QWidget):
     def __init__(self):
-        QWidget.__init__(self, None)
+        super().__init__()
         self.setWindowTitle("Simple Drawing")
-        self.rabbit = QPixmap("images/rabbit.png")
+        self.resize(500, 500)
 
     def paintEvent(self, e):
-        p = QPainter()
-        p.begin(self)
-        p.setPen(QColor(0, 0, 0))
-        p.setBrush(QColor(0, 127, 0))
-        p.drawPolygon(
-            QPoint(70, 100), QPoint(100, 110),
-            QPoint(130, 100), QPoint(100, 150)
-        )
-        p.setPen(QColor(255, 127, 0))
-        p.setBrush(QColor(255, 127, 0))
-        p.drawPie(50, 150, 100, 100, 0, 180 * 16)
-        p.drawPolygon(
-            QPoint(50, 200), QPoint(150, 200),
-            QPoint(100, 400)
-        )
-        p.drawPixmap(QRect(200, 100, 320, 320), self.rabbit)
+        p = QPainter(self)
+
+        # ---- Blue Rectangle ----
+        p.setPen(QPen(QColor(0, 0, 150), 3))
+        p.setBrush(QColor(100, 150, 255))
+        p.drawRect(50, 50, 150, 100)
+
+        # ---- Red Circle ----
+        p.setPen(QPen(QColor(150, 0, 0), 3))
+        p.setBrush(QColor(255, 100, 100))
+        p.drawEllipse(250, 50, 120, 120)
+
+        # ---- Yellow Star (Polygon) ----
+        p.setPen(QPen(QColor(255, 165, 0), 2))
+        p.setBrush(QColor(255, 215, 0))
+        star = [
+            QPoint(150, 250), QPoint(170, 290),
+            QPoint(215, 295), QPoint(180, 325),
+            QPoint(195, 370), QPoint(150, 345),
+            QPoint(105, 370), QPoint(120, 325),
+            QPoint(85, 295), QPoint(130, 290)
+        ]
+        p.drawPolygon(star)
+
+        # ---- Diagonal Lines Pattern ----
+        p.setPen(QPen(QColor(0, 0, 0), 1))
+        for i in range(0, 120, 10):
+            p.drawLine(300 + i, 250, 250, 370 - i)
+
         p.end()
+
+# ---- BirdDrawingWidget (for the bird) ----
 class BirdDrawingWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Blue Bird Drawing")
-        self.setGeometry(100, 100, 600, 400)
+        self.resize(600, 400)
 
     def paintEvent(self, event):
-        # Create a QPainter object to handle drawing
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)  # Enable smooth drawing
         painter.setBrush(QColor(0, 0, 255))  # Set brush color to blue
@@ -64,6 +80,7 @@ class BirdDrawingWidget(QWidget):
 
         painter.end()  # End painting
 
+# ---- Second Simple Drawing Window (for the rectangle, circle, star, etc.) ----
 class Simple_drawing_window2(QWidget):
     def __init__(self):
         super().__init__()
@@ -87,11 +104,11 @@ class Simple_drawing_window2(QWidget):
         p.setPen(QPen(QColor(255, 165, 0), 2))
         p.setBrush(QColor(255, 215, 0))
         star = [
-        QPoint(150, 250), QPoint(170, 290),
-        QPoint(215, 295), QPoint(180, 325),
-        QPoint(195, 370), QPoint(150, 345),
-        QPoint(105, 370), QPoint(120, 325),
-        QPoint(85, 295), QPoint(130, 290)
+            QPoint(150, 250), QPoint(170, 290),
+            QPoint(215, 295), QPoint(180, 325),
+            QPoint(195, 370), QPoint(150, 345),
+            QPoint(105, 370), QPoint(120, 325),
+            QPoint(85, 295), QPoint(130, 290)
         ]
         p.drawPolygon(star)
 
@@ -102,32 +119,57 @@ class Simple_drawing_window2(QWidget):
 
         p.end()
 
-class Simple_drawing_window4(Simple_drawing_window):
+# ---- New Third Drawing Window (with a triangle and rectangle) ----
+class Simple_drawing_window3(QWidget):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("Simple Drawing - Window 3")
+        self.resize(500, 500)
 
     def paintEvent(self, e):
-        # return super().paintEvent(e)
         p = QPainter(self)
-        p.setPen(QColor(255, 127, 0))
-        p.setBrush(QColor(255, 127, 0))
-        p.drawRect(50,50,200,150)
-        p.end
 
+        # ---- Green Triangle ----
+        p.setPen(QPen(QColor(0, 150, 0), 3))
+        p.setBrush(QColor(0, 255, 0))
+        triangle = [QPoint(100, 100), QPoint(200, 100), QPoint(150, 200)]
+        p.drawPolygon(triangle)
 
+        # ---- Purple Rectangle ----
+        p.setPen(QPen(QColor(150, 0, 150), 3))
+        p.setBrush(QColor(180, 105, 255))
+        p.drawRect(250, 50, 150, 100)
 
+        # ---- Diagonal Line ----
+        p.setPen(QPen(QColor(255, 0, 0), 2))
+        p.drawLine(100, 300, 400, 400)
+
+        p.end()
+
+# ---- Main Window that holds all widgets ----
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Drawing Program")
-        self.setGeometry(100, 100, 600, 400)
+        self.setGeometry(100, 100, 1000, 800)
         self.setStyleSheet("background-color: white;")
 
-        # Add a BirdDrawingWidget to this window
-        self.canvas = BirdDrawingWidget()
-        self.canvas.setParent(self)
-        self.canvas.setGeometry(0, 0, 600, 400)
+        # Initialize all the drawing widgets
+        self.canvas1 = Simple_drawing_window()
+        self.canvas1.setParent(self)
+        self.canvas1.setGeometry(0, 0, 500, 500)  # Set position and size
 
+        self.canvas2 = BirdDrawingWidget()
+        self.canvas2.setParent(self)
+        self.canvas2.setGeometry(510, 0, 600, 400)  # Set position and size
+
+        self.canvas3 = Simple_drawing_window2()
+        self.canvas3.setParent(self)
+        self.canvas3.setGeometry(0, 510, 500, 500)  # Set position and size
+
+        self.canvas4 = Simple_drawing_window3()
+        self.canvas4.setParent(self)
+        self.canvas4.setGeometry(510, 410, 500, 500)  # Set position and size
 
 def main():
     app = QApplication(sys.argv)

@@ -1,8 +1,31 @@
 import sys
-from PySide6.QtCore import Qt, QPoint
-from PySide6.QtGui import QPainter, QColor
-from PySide6.QtWidgets import QApplication, QWidget
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtWidgets import *
+class Simple_drawing_window(QWidget):
+    def __init__(self):
+        QWidget.__init__(self, None)
+        self.setWindowTitle("Simple Drawing")
+        self.rabbit = QPixmap("images/rabbit.png")
 
+    def paintEvent(self, e):
+        p = QPainter()
+        p.begin(self)
+        p.setPen(QColor(0, 0, 0))
+        p.setBrush(QColor(0, 127, 0))
+        p.drawPolygon(
+            QPoint(70, 100), QPoint(100, 110),
+            QPoint(130, 100), QPoint(100, 150)
+        )
+        p.setPen(QColor(255, 127, 0))
+        p.setBrush(QColor(255, 127, 0))
+        p.drawPie(50, 150, 100, 100, 0, 180 * 16)
+        p.drawPolygon(
+            QPoint(50, 200), QPoint(150, 200),
+            QPoint(100, 400)
+        )
+        p.drawPixmap(QRect(200, 100, 320, 320), self.rabbit)
+        p.end()
 class BirdDrawingWidget(QWidget):
     def __init__(self):
         super().__init__()
@@ -47,7 +70,7 @@ class Simple_drawing_window2(QWidget):
         self.setWindowTitle("Simple GitHub Drawing - Window 2")
         self.resize(500, 500)
 
-        def paintEvent(self, e):
+    def paintEvent(self, e):
         p = QPainter(self)
 
         # ---- Blue Rectangle ----
@@ -75,7 +98,7 @@ class Simple_drawing_window2(QWidget):
         # ---- Diagonal Lines Pattern ----
         p.setPen(QPen(QColor(0, 0, 0), 1))
         for i in range(0, 120, 10):
-        p.drawLine(300 + i, 250, 250, 370 - i)
+            p.drawLine(300 + i, 250, 250, 370 - i)
 
         p.end()
 
@@ -91,14 +114,7 @@ class Simple_drawing_window4(Simple_drawing_window):
         p.drawRect(50,50,200,150)
         p.end
 
-def main():
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
 
-if __name__ == "__main__":
-    main()
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -113,3 +129,11 @@ class MainWindow(QWidget):
         self.canvas.setGeometry(0, 0, 600, 400)
 
 
+def main():
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main()

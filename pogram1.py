@@ -72,12 +72,33 @@ class Simple_drawing_window2(QWidget):
         ]
         p.drawPolygon(star)
 
-# ---- Diagonal Lines Pattern ----
-p.setPen(QPen(QColor(0, 0, 0), 1))
-for i in range(0, 120, 10):
-p.drawLine(300 + i, 250, 250, 370 - i)
+        # ---- Diagonal Lines Pattern ----
+        p.setPen(QPen(QColor(0, 0, 0), 1))
+        for i in range(0, 120, 10):
+        p.drawLine(300 + i, 250, 250, 370 - i)
 
-p.end()
+        p.end()
+
+class Simple_drawing_window4(Simple_drawing_window):
+    def __init__(self):
+        super().__init__()
+
+    def paintEvent(self, e):
+        # return super().paintEvent(e)
+        p = QPainter(self)
+        p.setPen(QColor(255, 127, 0))
+        p.setBrush(QColor(255, 127, 0))
+        p.drawRect(50,50,200,150)
+        p.end
+
+def main():
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main()
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -91,11 +112,4 @@ class MainWindow(QWidget):
         self.canvas.setParent(self)
         self.canvas.setGeometry(0, 0, 600, 400)
 
-def main():
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
 
-if __name__ == "__main__":
-    main()

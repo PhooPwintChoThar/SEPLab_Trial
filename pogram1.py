@@ -41,6 +41,44 @@ class BirdDrawingWidget(QWidget):
 
         painter.end()  # End painting
 
+class Simple_drawing_window2(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Simple GitHub Drawing - Window 2")
+        self.resize(500, 500)
+
+        def paintEvent(self, e):
+        p = QPainter(self)
+
+        # ---- Blue Rectangle ----
+        p.setPen(QPen(QColor(0, 0, 150), 3))
+        p.setBrush(QColor(100, 150, 255))
+        p.drawRect(50, 50, 150, 100)
+
+        # ---- Red Circle ----
+        p.setPen(QPen(QColor(150, 0, 0), 3))
+        p.setBrush(QColor(255, 100, 100))
+        p.drawEllipse(250, 50, 120, 120)
+
+        # ---- Yellow Star (Polygon) ----
+        p.setPen(QPen(QColor(255, 165, 0), 2))
+        p.setBrush(QColor(255, 215, 0))
+        star = [
+        QPoint(150, 250), QPoint(170, 290),
+        QPoint(215, 295), QPoint(180, 325),
+        QPoint(195, 370), QPoint(150, 345),
+        QPoint(105, 370), QPoint(120, 325),
+        QPoint(85, 295), QPoint(130, 290)
+        ]
+        p.drawPolygon(star)
+
+# ---- Diagonal Lines Pattern ----
+p.setPen(QPen(QColor(0, 0, 0), 1))
+for i in range(0, 120, 10):
+p.drawLine(300 + i, 250, 250, 370 - i)
+
+p.end()
+
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()

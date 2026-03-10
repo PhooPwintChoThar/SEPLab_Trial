@@ -1,0 +1,79 @@
+from binsearch import binsearch
+
+
+class InvalidArgument(Exception):
+    pass
+
+
+# -------------------------
+# (2.1) Known value tests
+# -------------------------
+def test_known_values():
+    test_cases = [
+        ([1, 2, 3, 4, 5], 1),
+        ([1, 2, 3, 4, 5], 3),
+        ([1, 2, 3, 4, 5], 5),
+        ([10, 20, 30, 40], 20),
+        ([10, 20, 30, 40], 35),
+        ([2, 4, 6, 8, 10], 8),
+        ([2, 4, 6, 8, 10], 1),
+        ([5, 10, 15, 20], 15),
+        ([5, 10, 15, 20], 25),
+        ([7, 9, 11, 13], 9),
+    ]
+
+    for data, key in test_cases:
+        try:
+            result = binsearch(data, key)
+            print(f"Input: {data}, Key: {key} -> Output: {result}")
+        except Exception as e:
+            print("Error:", e)
+
+
+# -------------------------
+# (2.2) Sanity tests
+# -------------------------
+def test_sanity():
+    dataList = [1, 3, 5, 7, 9]
+
+    for key in range(0, 11):
+        result = binsearch(dataList, key)
+
+        if isinstance(result, int):
+            N = len(dataList)
+
+            # check index range
+            if not (0 <= result <= N-1):
+                print("Sanity Fail: index out of range")
+
+            # check correct value
+            if dataList[result] != key:
+                print("Sanity Fail: value mismatch")
+
+        if result is None:
+            if key in dataList:
+                print("Sanity Fail: key exists but returned None")
+
+
+# -------------------------
+# (2.3) Failure tests
+# -------------------------
+def test_failures():
+    try:
+        binsearch("not a list", 5)
+    except Exception:
+        print("Passed failure test (InvalidArgument expected)")
+
+
+# -------------------------
+# Run tests
+# -------------------------
+if __name__ == "__main__":
+    print("Running Known Value Tests")
+    test_known_values()
+
+    print("\nRunning Sanity Tests")
+    test_sanity()
+
+    print("\nRunning Failure Tests")
+    test_failures()

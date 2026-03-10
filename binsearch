@@ -1,6 +1,10 @@
 from binsearch import binsearch
-
 import unittest
+
+
+# Required custom exception
+class InvalidArgument(Exception):
+    pass
 
 
 class KnownValues(unittest.TestCase):
@@ -13,6 +17,11 @@ class KnownValues(unittest.TestCase):
         ([2, 4, 6, 8, 10], 8, 3),
         ([5, 10, 15, 20], 15, 2),
         ([7, 9, 11, 13], 9, 1),
+        ([3, 6, 9, 12], 12, 3),
+        ([4, 8, 12, 16], 4, 0),
+        ([100, 200, 300], 200, 1),
+        ([11, 22, 33, 44, 55], 44, 3),
+        ([6, 12, 18, 24], 18, 2),
     )
 
     def test_known_values(self):
@@ -29,10 +38,12 @@ class NotFoundValues(unittest.TestCase):
         ([10, 20, 30, 40], 35),
         ([2, 4, 6, 8, 10], 1),
         ([5, 10, 15, 20], 25),
+        ([3, 6, 9, 12], 7),
+        ([4, 8, 12, 16], 10),
     )
 
     def test_not_found(self):
-        """binsearch should return None when key not present"""
+        """binsearch should return None when key is not present"""
         for data, key in self.not_found_cases:
             result = binsearch(data, key)
             self.assertIsNone(result)
@@ -40,22 +51,38 @@ class NotFoundValues(unittest.TestCase):
 
 class SanityCheck(unittest.TestCase):
 
-    def test_sanity(self):
-        """If key exists, returned index should point to correct value"""
+    def test_index_range(self):
+        """Returned index must be within valid range"""
         data = [1, 3, 5, 7, 9]
 
         for key in data:
             index = binsearch(data, key)
-
             self.assertTrue(0 <= index < len(data))
+
+    def test_correct_value(self):
+        """Returned index must point to correct key"""
+        data = [1, 3, 5, 7, 9]
+
+        for key in data:
+            index = binsearch(data, key)
             self.assertEqual(data[index], key)
+
+    def test_none_means_not_found(self):
+        """If None returned, key should not be in list"""
+        data = [1, 3, 5, 7, 9]
+
+        key = 4
+        result = binsearch(data, key)
+
+        if result is None:
+            self.assertNotIn(key, data)
 
 
 class InvalidInput(unittest.TestCase):
 
     def test_invalid_list(self):
-        """binsearch should fail when list is invalid"""
-        with self.assertRaises(TypeError):
+        """binsearch should raise InvalidArgument when input is not a list"""
+        with self.assertRaises(InvalidArgument):
             binsearch("not a list", 5)
 
 

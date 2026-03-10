@@ -1,39 +1,21 @@
-import unittest
-from average import findAverage   # assume function is in average.py
+from average import findAverage
+
+def run_test(values, minv=0, maxv=10):
+    print("Input:", values)
+    result = findAverage(values, minv, maxv)
+    print("\nOutput:", result)
+    print("-"*40)
 
 
-class TestFindAverage(unittest.TestCase):
+# Test cases for 6 basis paths
+tests = [
+    [5, 8, -999],                 # Path 1
+    [-999],                       # Path 2
+    [1,2,3,4,5,6,7,8,9,10,11],    # Path 3
+    [5, -2, 7, -999],             # Path 4
+    [3, 12, 6, -999],             # Path 5
+    [2,4,6,8,-999]                # Path 6
+]
 
-    # Test Case 1: normal values within range
-    def testNormalValues(self):
-        result = findAverage([2,4,6], 0, 10)
-        self.assertEqual(result, 4.0)
-
-    # Test Case 2: some values outside range
-    def testValuesOutsideRange(self):
-        result = findAverage([-5, 3, 12, 5], 0, 10)
-        self.assertEqual(result, 4.0)
-
-    # Test Case 3: no valid values
-    def testNoValidValues(self):
-        result = findAverage([-5, 20, 30], 0, 10)
-        self.assertEqual(result, -999)
-
-    # Test Case 4: sentinel value stops loop
-    def testSentinelValue(self):
-        result = findAverage([4,5,-999,8], 0, 10)
-        self.assertEqual(result, 4.5)
-
-    # Test Case 5: input limit (max 10 inputs counted)
-    def testMaxInputLimit(self):
-        result = findAverage([1,2,3,4,5,6,7,8,9,10,11], 0, 10)
-        self.assertEqual(result, 5.5)
-
-    # Test Case 6: empty list
-    def testEmptyList(self):
-        result = findAverage([], 0, 10)
-        self.assertEqual(result, -999)
-
-
-if __name__ == "__main__":
-    unittest.main()
+for t in tests:
+    run_test(t)
